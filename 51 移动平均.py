@@ -206,6 +206,7 @@ def optimizeWeight(ts, weights ):
         pred = wma_mean.shift(1)
         pred.dropna(inplace=True)
         mse = mts.mean_squared_error(ts[pred.index], pred)
+        # print(weights, mse)
         return mse
 
     # 约束条件
@@ -215,19 +216,14 @@ def optimizeWeight(ts, weights ):
 
     # 优化
     optResult = spo.minimize(error, weights, args=(ts,),
-                # method='trust-constr',
+                method='trust-constr',
                 bounds=bnds, constraints=cons, 
                 # options={'maxiter':1000,'disp':True}
                 )
-    # print(optResult)
+    assert(optResult['success'])
+    print(optResult)
 
-    return optResult['x']   #只返回最优参数
-
-# methods = ['Nelder-Mead', 'Powell', 'CG', 'BFGS',
-#         'Newton-CG', 'L-BFGS-B', 'TNC', 
-#           'COBYLA', 'SLSQP', 'trust-constr', 
-#           'dogleg',
-#         'trust-ncg', 'trust-exact', 'trust-krylov']
+    return ret   #只返回最优参数
 
 weights = [0.1, 0.2, 0.4, 0.3]
 bestWts = optimizeWeight(ts, weights)

@@ -219,6 +219,7 @@ def optimizeDES(ts, alpha):
                 bounds=bnds,
                 # options={'maxiter':1000,'disp':True}
                 )
+    assert(optResult['success'])
     # print(optResult)
 
     return optResult['x']   #只返回最优参数
@@ -307,6 +308,7 @@ def optimizeTES(ts, alpha):
                 bounds=bnds,
                 # options={'maxiter':1000,'disp':True}
                 )
+    assert(optResult['success'])
     print(optResult)
 
     return optResult['x']   #只返回最优参数列表
