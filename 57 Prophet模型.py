@@ -34,7 +34,6 @@ from fbprophet import Prophet
 mdl = Prophet(growth = 'linear')
 mdl.fit(df)             #help(Prophet.fit)
 
-
 # 3、评估模型
 pred = mdl.predict(df['y'])
 mape = np.abs( (ts - pred)/ts).mean()
