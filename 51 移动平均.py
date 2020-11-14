@@ -9,44 +9,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-from sklearn import metrics
-def displayRegressionMetrics(y_true, y_pred, adjVal=None):
-    '''
-    \n功能：计算回归的各种评估指标。
-    \n参数：y_true:真实值
-         y_pred:预测值
-         adjVal:输入的shape参数(n,p)，其中n是样本量，p是特征数
-            默认None表示是一元回归；
-    \n返回：各种指标，字典形式
-    '''
-    # 评估指标：R^2/adjR^2, MAPE, MAE，RMSE
-    mts = {}
-    #一元回归，计算R^2；
-    mts['R2'] = metrics.r2_score(y_true, y_pred)
-    # 多元回归，计算调整R^2
-    if (adjVal != None) and (adjVal[1] > 1):
-        n, p = adjVal
-        mts['adjR2']  = 1-(1-mts['R2'])*(n-1)/(n-p-1)
-
-    mts['MAPE'] = (abs((y_pred-y_true)/y_true)).mean()
-    mts['MAE'] = metrics.mean_absolute_error(y_true, y_pred)
-    MSE = metrics.mean_squared_error(y_true, y_pred)
-    mts['RMSE'] = np.sqrt(MSE)
-    
-    # 格式化，保留小数点后4位
-    for k,v in mts.items():
-        mts[k] = np.round(v, 4)
-    
-    # 特别处理,注意变成了字符串
-    mts['MAPE'] = '{0:.2%}'.format(mts['MAPE']) 
-
-    # # 残差检验：均值为0，正态分布，随机无自相关
-    # resid = y_true - y_pred         #残差
-    # z,p = stats.normaltest(resid)   #正态检验
-    
-    print(mts)
-    return None
+from common import displayRegressionMetrics
 
 
 # 1、读取数据集
@@ -222,7 +185,7 @@ def optimizeWeight(ts, weights ):
                 )
     assert(optResult['success'])
     print(optResult)
-
+    ret = optResult['x']
     return ret   #只返回最优参数
 
 weights = [0.1, 0.2, 0.4, 0.3]
