@@ -15,6 +15,7 @@
 # activate tensorflow
 # python -m pip install --upgrade pip
 # pip install tensorflow==2.0.0-alpha0
+
 # import tensorflow as tf
 
 import pandas as pd
@@ -49,7 +50,6 @@ data = np.array(result)
 from sklearn.preprocessing import MinMaxScaler
 scalerX = MinMaxScaler()
 X = scalerX.fit_transform(data[:, :shiftN])
-
 
 scalerY = MinMaxScaler()
 Y = scalerY.fit_transform(data[:, -1].reshape(-1,1))
